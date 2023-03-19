@@ -1,4 +1,4 @@
-public abstract class CallDecorator extends ShapeDecorator {
+public class CallDecorator extends ShapeDecorator {
 
     @Override
     public String decorate() {

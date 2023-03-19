@@ -10,4 +10,9 @@ public class Rectangle extends Shape {
         g.setColor(c);
         g.fillRect(Math.min(x2, x1), Math.min(y2, y1), (x2>x1)?x2-x1:x1-x2, (y2>y1)?y2-y1:y1-y2);
     }
+
+    @Override
+    public String decorate() {
+        return super.decorate();
+    }
 }

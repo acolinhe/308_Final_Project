@@ -12,4 +12,9 @@ public class Diamond extends Shape {
         int[] yPoints = { y1, y1+(y2-y1)/2, y2, y1+(y2-y1)/2 };
         g.drawPolygon(xPoints, yPoints, 4);
     }
+
+    @Override
+    public String decorate() {
+        return super.decorate();
+    }
 }

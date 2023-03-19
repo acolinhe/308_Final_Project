@@ -14,4 +14,9 @@ public abstract class Shape implements Decorated{
     }
 
     public abstract void draw(Graphics g);
+
+    @Override
+    public String decorate() {
+        return null;
+    }
 }
