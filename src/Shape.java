@@ -1,7 +1,7 @@
 import java.awt.*;
 
 
-public abstract class Shape {
+public abstract class Shape implements Decorated{
     int x1, y1, x2, y2;
     Color c;
 
