@@ -15,6 +15,7 @@ public class Main extends JFrame {
 		
 		Menu menu = new Menu();
 		StatusArea status = new StatusArea();
+		WorkingArea work = new WorkingArea();
 		status.setBackground(Color.WHITE);
 		status.setForeground(Color.BLACK);
 		status.setBorder(BorderFactory.createEtchedBorder());
@@ -24,6 +25,7 @@ public class Main extends JFrame {
 		
 		add(menu, BorderLayout.NORTH);
 		add(status, BorderLayout.SOUTH);
+		add(work, BorderLayout.CENTER);
 		
 	}
 	
