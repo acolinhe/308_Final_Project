@@ -31,7 +31,7 @@ public class Main extends JFrame {
 	
 	public static void main (String[] args) {
 		Main m = new Main();
-		m.setSize(500,500);
+		m.setSize(900,900);
 	    m.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	    m.setVisible(true);
 	}
