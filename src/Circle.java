@@ -6,9 +6,10 @@ public class Circle extends Shape {
         super(x1, y1, x2, y2, c);
     }
 
+    @Override
     public void draw(Graphics g) {
         g.setColor(c);
-        g.fillOval(Math.min(x2, x1), Math.min(y2, y1), (x2>x1)?x2-x1:x1-x2, (y2>y1)?y2-y1:y1-y2);
+        g.drawOval(Math.min(x2, x1), Math.min(y2, y1), (x2>x1)?x2-x1:x1-x2, (y2>y1)?y2-y1:y1-y2);
     }
 
     @Override

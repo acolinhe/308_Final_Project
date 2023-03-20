@@ -1,12 +1,13 @@
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class StatusArea extends JPanel  {
+public class StatusArea extends JPanel implements Observer {
 	JTextField status;
 	//Repository repo;
 	
@@ -25,9 +26,14 @@ public class StatusArea extends JPanel  {
 		//repo.addObserver(this);
 	}
 		
-	
+	@Override
 	public void update(Observable o, Object arg) {
-		
+		if (arg.equals("Shape")) {
+			System.out.println("chat panel print: shape was created");
+		}
+		else if (arg.equals("Line")) {
+			System.out.println("chat panel print: line was created");
+		}
 		//modify this
 		//status.setText();
 		
