@@ -1,7 +1,6 @@
 import java.awt.Image;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
@@ -22,26 +21,21 @@ public class Menu extends JMenuBar {
 		JCheckBoxMenuItem load = new JCheckBoxMenuItem("Load");
 		JCheckBoxMenuItem about = new JCheckBoxMenuItem("About");
 		
-		List<JCheckBoxMenuItem> items = new ArrayList<>();
-		items.add(new JCheckBoxMenuItem("Begin", new ImageIcon("src/images/begin.png")));
-		items.add(new JCheckBoxMenuItem("End", new ImageIcon("src/images/end.png")));
-		items.add(new JCheckBoxMenuItem("Call a method", new ImageIcon("src/images/call.png")));
-		items.add(new JCheckBoxMenuItem("Instruction", new ImageIcon("src/images/instruction.png")));
-		items.add(new JCheckBoxMenuItem("Input or Output", new ImageIcon("src/images/inputOutput.png")));
-		items.add(new JCheckBoxMenuItem("Variable Declaration", new ImageIcon("src/images/variable.png")));
-		items.add(new JCheckBoxMenuItem("Condition", new ImageIcon("src/images/condition.png")));
+		String[] itemNames = {"Begin", "End", "Call a method", "Instruction", "Input or Output", "Variable Declaration", "Condition"};
+		String[] itemIcons = {"src/images/begin.png", "src/images/end.png", "src/images/call.png", "src/images/instruction.png", "src/images/inputOutput.png", "src/images/variable.png", "src/images/condition.png"};
 		
-		for (JCheckBoxMenuItem item : items) {
-		    item.setHorizontalTextPosition(JCheckBoxMenuItem.RIGHT);
-		    item.setHorizontalAlignment(JCheckBoxMenuItem.LEFT);
-		    item.setIcon(new ImageIcon(((ImageIcon) item.getIcon()).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
-		    newMenu.add(item);
+		ButtonGroup group = new ButtonGroup();
+		
+		for (int i = 0; i < itemNames.length; i++) {
+			JCheckBoxMenuItem item = new JCheckBoxMenuItem(itemNames[i], new ImageIcon(itemIcons[i]));
+			item.setHorizontalTextPosition(JCheckBoxMenuItem.RIGHT);
+			item.setHorizontalAlignment(JCheckBoxMenuItem.LEFT);
+			item.setIcon(new ImageIcon(new ImageIcon(itemIcons[i]).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
+			newMenu.add(item);
+			group.add(item);
+			item.addActionListener(controller);
 		}
 		
-//		lineMenu.add(lineOptions = new JCheckBoxMenuItem("Inheritance"));
-//		lineMenu.add(lineOptions = new JCheckBoxMenuItem("Using"));
-//		lineMenu.add(lineOptions = new JCheckBoxMenuItem("Having"));
-//		lineMenu.add(lineOptions = new JCheckBoxMenuItem("Composition"));
 		
 		helpMenu.add(about);
 		
@@ -54,18 +48,10 @@ public class Menu extends JMenuBar {
 		menuBar.add(helpMenu);
 		
 		about.addActionListener(controller);
-		items.get(0).addActionListener(controller);
-		items.get(1).addActionListener(controller);
-		items.get(2).addActionListener(controller);
-		items.get(3).addActionListener(controller);
-		items.get(4).addActionListener(controller);
-		items.get(5).addActionListener(controller);
-		items.get(6).addActionListener(controller);
 		
 		setBorder(BorderFactory.createEtchedBorder());
 		add(menuBar);
 		
 	}
 	
-
 }
