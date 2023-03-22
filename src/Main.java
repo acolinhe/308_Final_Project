@@ -1,17 +1,23 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 public class Main extends JFrame {
 
 	public Main() {
 		super("Final Project");
-		
+		Repository repo = Repository.getR();
 		Menu menu = new Menu();
 		StatusArea status = new StatusArea();
 		WorkingArea work = new WorkingArea();
+		repo.addObserver(work);
+		repo.addObserver(status);
 		status.setBackground(Color.WHITE);
 		status.setForeground(Color.BLACK);
 		status.setBorder(BorderFactory.createEtchedBorder());

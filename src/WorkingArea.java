@@ -1,10 +1,11 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Stack;
-
 import javax.swing.JPanel;
 
-public class WorkingArea extends JPanel{
+public class WorkingArea extends JPanel implements Observer{
 
 	Repository repo;
 	
@@ -25,10 +26,15 @@ public class WorkingArea extends JPanel{
 			drawing.draw(g);
 		}
 		repaint();
-//
-//  @Override
-//  public void update(Observable o, Object arg) {
-//  	repaint();
-//  }
 	}
+
+	public void update(Observable o, Object arg){
+		updateShapes();
+	}
+
+	public void updateShapes(){
+		repaint();
+	}
+
+
 }
