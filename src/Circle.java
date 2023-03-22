@@ -2,14 +2,16 @@ import java.awt.*;
 
 public class Circle extends Shape {
 
-    public Circle (int x1, int y1, int x2, int y2, Color c) {
-        super(x1, y1, x2, y2, c);
+    public Circle (int x1, int y1, int WIDTH, int HEIGHT, Color c) {
+        super(x1, y1, WIDTH, HEIGHT, c);
     }
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(c);
-        g.drawOval(Math.min(x2, x1), Math.min(y2, y1), (x2>x1)?x2-x1:x1-x2, (y2>y1)?y2-y1:y1-y2);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(c);
+        g2d.setStroke(new BasicStroke(3));
+        g2d.drawOval(Math.min(WIDTH, x1), Math.min(HEIGHT, y1), (WIDTH>x1)?WIDTH-x1:x1-WIDTH, (HEIGHT>y1)?HEIGHT-y1:y1-HEIGHT);
     }
 
     @Override

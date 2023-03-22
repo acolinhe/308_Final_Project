@@ -3,24 +3,22 @@ import java.awt.FlowLayout;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class StatusArea extends JPanel implements Observer {
-	JTextField status;
+	JTextArea status;
 	//Repository repo;
 	
 	public StatusArea() {
-		status = new JTextField("Status: ");
+		status = new JTextArea("Status: ");
 		status.setEditable(false);
 		status.setBackground(Color.WHITE);
 		status.setBorder(BorderFactory.createEmptyBorder());
-		status.setHorizontalAlignment(JTextField.LEFT);
+		//status.setHorizontalAlignment(JTextArea.LEFT);
 		status.setForeground(Color.BLACK);
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
-		
+		status.setText("Status: Shiv is a 🐐");
 		add(status);
 		
 		//repo.addObserver(this);
@@ -29,14 +27,17 @@ public class StatusArea extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg.equals("Shape")) {
-			System.out.println("chat panel print: shape was created");
+			status.setText("Status: Shape Was Created");
 		}
 		else if (arg.equals("Line")) {
-			System.out.println("chat panel print: line was created");
+			status.setText("Status: Line Was Created");
 		}
-		//modify this
-		//status.setText();
-		
+		else if (arg.equals("Save")) {
+			status.setText("Status: File Was Saved");
+		}
+		else if (arg.equals("Load")) {
+			status.setText("Status: File Was Loaded");
+		}
 	}
 	
 }

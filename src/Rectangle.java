@@ -2,17 +2,22 @@ import java.awt.*;
 
 public class Rectangle extends Shape {
 
-    public Rectangle (int x1, int y1, int x2, int y2, Color c) {
-        super(x1, y1, x2, y2, c);
+
+    public Rectangle (int x1, int y1, int WIDTH, int HEIGHT, Color c) {
+        super(x1, y1, WIDTH, HEIGHT, c);
     }
     @Override
     public void draw(Graphics g) {
         g.setColor(c);
-        g.drawRect(Math.min(x2, x1), Math.min(y2, y1), (x2>x1)?x2-x1:x1-x2, (y2>y1)?y2-y1:y1-y2);
+        g.drawRect(super.x1, super.y1, 100, 100);
+        g.drawString(text,super.x1+35,super.y1+50);
+
     }
 
     @Override
     public String decorate() {
         return super.decorate();
     }
+
+
 }
