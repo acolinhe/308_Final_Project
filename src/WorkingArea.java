@@ -1,40 +1,45 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Stack;
 import javax.swing.JPanel;
-
-public class WorkingArea extends JPanel implements Observer{
+/**
+ * The WorkingArea class extends JPanel and allows the lines and shapes drawn. The Controller
+ * is added so that the actions with the mouse can be handled.
+ *
+ *  @author Reza Mousakhani, Anthony Colin, Luke Fanguna, Luke Franks, Nathan Choi, & Shiv Panchal
+ */
+public class WorkingArea extends JPanel{
 
 	Repository repo;
-	
+
+	/**
+	 * Constructs a new WorkingArea object, sets its background color, and adds
+	 * a Controller as a MouseListener and MouseMotionListener.
+	 */
 	public WorkingArea() {
 		repo = Repository.getR();
 		Controller controller = new Controller();
-		Repository.getR().setShape("Begin");
-		setBackground(Color.LIGHT_GRAY);
+		Repository.getR().setShape("");
+		setBackground(Color.decode("#ADD8E6"));
 		addMouseListener(controller);
 		addMouseMotionListener(controller);
 	}
 
+	/**
+	 * Overrides the paintComponent method of JPanel to draw the shapes and lines
+	 * contained in the Repository.
+	 * @param g the Graphics object used to draw
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
+		g.setColor(Color.BLACK);
 		for (Shape drawing : repo.getShapes()) {
 			drawing.draw(g);
 		}
+
+		for(Line line : repo.getLines()){
+			line.draw(g);
+		}
 		repaint();
 	}
-
-	public void update(Observable o, Object arg){
-		updateShapes();
-	}
-
-	public void updateShapes(){
-		repaint();
-	}
-
-
 }
