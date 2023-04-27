@@ -55,6 +55,28 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
             panel.setPreferredSize(new Dimension(600, 300));
             panel.setMaximumSize(new Dimension(600, 300));
             JOptionPane.showMessageDialog(null, panel, "Team Information", JOptionPane.PLAIN_MESSAGE);
+        } else if (action.equals("Save")){
+            try {
+                Repository.getR().setAll();
+                LoadOrSave.saveObjects(Repository.getR().getShapes(), Repository.getR().getLines(), Repository.getR().getFilePath());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        } else if (action.equals("Load")) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Load Diagram");
+            int userSelect = fileChooser.showOpenDialog(this);
+            if (userSelect == JFileChooser.APPROVE_OPTION){
+                try {
+                    Object[] objects = LoadOrSave.loadObjects(Repository.getR().getFilePath());
+                    Stack<Shape> loadedShapes = (Stack<Shape>) objects[0];
+                    Stack<Line> loadedLines = (Stack<Line>) objects[1];
+                    Repository.getR().setLoadShapes(loadedShapes);
+                    Repository.getR().setLoadLines(loadedLines);
+                } catch (IOException | ClassNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
     }
 
