@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.*;
 import java.util.Observable;
 
@@ -7,6 +8,7 @@ import java.util.Observable;
  * @author Anthony Colin, Shiv Panchal, Luke Fanguna, Nathan Choi, Reza Mousakhani, Luke Franks
  */
 public class Repository extends Observable {
+    private String filePath = getDesktopPath() + "diagram.bin";
     private String shape;
     private boolean lineFlag = false;
     private Stack<Shape> shapes = new Stack<Shape>();
@@ -21,6 +23,19 @@ public class Repository extends Observable {
      * Allows Repository to not be changed out of scope
      */
     private Repository() {
+    }
+
+    /**
+     * Gets desktop path for the file to be saved in
+     * @return desktop directory
+     */
+    private static String getDesktopPath() {
+        String home = System.getProperty("user.home");
+        return home + File.separator + "Desktop" + File.separator;
+    }
+
+    public String getFilePath(){
+        return filePath;
     }
 
     /**
@@ -43,6 +58,12 @@ public class Repository extends Observable {
      */
     public void setLoadShapes(Stack<Shape> newShapes) {
         shapes = newShapes;
+        setChanged();
+        notifyObservers("Load");
+    }
+
+    public void setLoadLines(Stack<Line> newLines) {
+        lines = newLines;
         setChanged();
         notifyObservers("Load");
     }
