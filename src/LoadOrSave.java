@@ -13,14 +13,16 @@ public class LoadOrSave {
 
     /**
      * Saves a stack of shapes to a file specified by the filePath parameter.
-     * @param all the stack of shapes to be saved
+     * @param shapes the stack of shapes to be saved
+     * @param lines the stack of shapes to be saved
      * @param filePath the file path to which the shapes will be saved
      * @throws IOException if an I/O error occurs while writing to the file
      */
-    public static void saveObjects(Stack<Object> all, String filePath) throws IOException {
+    public static void saveObjects(Stack<Shape> shapes, Stack<Line> lines, String filePath) throws IOException {
         try (FileOutputStream fos = new FileOutputStream(filePath);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-            oos.writeObject(all);
+            Object[] objects = new Object[]{shapes, lines};
+            oos.writeObject(objects);
         }
     }
 
@@ -31,10 +33,10 @@ public class LoadOrSave {
      * @throws IOException if an I/O error occurs while reading the file
      * @throws ClassNotFoundException if the class of the serialized object cannot be found
      */
-    public static Stack<Shape> loadObjects(String filePath) throws IOException, ClassNotFoundException {
+    public static Object[] loadObjects(String filePath) throws IOException, ClassNotFoundException {
         try (FileInputStream fis = new FileInputStream(filePath);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
-            return (Stack<Shape>) ois.readObject();
+            return (Object[]) ois.readObject();
         }
     }
 }
