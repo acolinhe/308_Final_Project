@@ -71,41 +71,12 @@ public class Menu extends JMenuBar {
 		setBorder(BorderFactory.createEtchedBorder());
 		add(menuBar);
 
-		String filePath = getDesktopPath() + "diagram.bin";
-		save.addActionListener(e -> {
-			try {
-				Repository.getR().setAll();
-				LoadOrSave.saveObjects(Repository.getR().getAll(), filePath);
-			} catch (IOException ex) {
-				throw new RuntimeException(ex);
-			}
-		});
 
-		load.addActionListener(e -> {
-			JFileChooser fileChooser = new JFileChooser();
-			fileChooser.setDialogTitle("Load Diagram");
-			int userSelect = fileChooser.showOpenDialog(this);
-			if (userSelect == JFileChooser.APPROVE_OPTION){
-				try {
-					Stack<Shape> loadedShapes = LoadOrSave.loadObjects(filePath);
-					Repository.getR().setLoadShapes(loadedShapes);
-				} catch (IOException | ClassNotFoundException ex) {
-					throw new RuntimeException(ex);
-				}
-			}
-		});
-		
+		save.addActionListener(controller);
+		load.addActionListener(controller);
+
 		setBorder(BorderFactory.createEtchedBorder());
 		add(menuBar);
-		
-	}
 
-	/**
-	 * Gets desktop path for the file to be saved in
-	 * @return desktop directory
-	 */
-	private static String getDesktopPath() {
-		String home = System.getProperty("user.home");
-		return home + File.separator + "Desktop" + File.separator;
 	}
 }
