@@ -1,11 +1,17 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
@@ -28,19 +34,44 @@ public class Main extends JFrame {
         Menu menu = new Menu();
         StatusArea status = new StatusArea();
         WorkingArea work = new WorkingArea();
+        ChatArea chat = new ChatArea();
         repo.addObserver(status);
         status.setBackground(Color.WHITE);
         status.setForeground(Color.BLACK);
         status.setBorder(BorderFactory.createEtchedBorder());
 
-
         setLayout(new BorderLayout());
 
-        add(menu, BorderLayout.NORTH);
-        add(status, BorderLayout.SOUTH);
-        add(work, BorderLayout.CENTER);
+        JPanel textAreaPanel = new JPanel(new GridLayout(2, 1));
+        JPanel qaPanel = new JPanel(new GridLayout(2, 1));
 
+        JTextArea questionTextArea = new JTextArea(5, 30);
+        questionTextArea.setBorder(BorderFactory.createTitledBorder("Question"));
+        JTextArea answerTextArea1 = new JTextArea(3, 30);
+        answerTextArea1.setBorder(BorderFactory.createTitledBorder("Answer Subsection 1"));
+        JTextArea answerTextArea2 = new JTextArea(3, 30);
+        answerTextArea2.setBorder(BorderFactory.createTitledBorder("Answer Subsection 2"));
+        JTextArea answerTextArea3 = new JTextArea(3, 30);
+        answerTextArea3.setBorder(BorderFactory.createTitledBorder("Answer Subsection 3"));
+        JTextArea answerTextArea4 = new JTextArea(3, 30);
+        answerTextArea4.setBorder(BorderFactory.createTitledBorder("Answer Subsection 4"));
+
+        qaPanel.add(questionTextArea);
+        JPanel answerSubsectionsPanel = new JPanel(new GridLayout(2, 2));
+        answerSubsectionsPanel.add(answerTextArea1);
+        answerSubsectionsPanel.add(answerTextArea2);
+        answerSubsectionsPanel.add(answerTextArea3);
+        answerSubsectionsPanel.add(answerTextArea4);
+        qaPanel.add(answerSubsectionsPanel);
+
+        textAreaPanel.add(qaPanel);
+        textAreaPanel.add(chat);
+        add(menu, BorderLayout.NORTH);
+        add(textAreaPanel, BorderLayout.WEST);
+        add(work, BorderLayout.CENTER);
+        add(status, BorderLayout.SOUTH);
     }
+
     /**
      * The main method is the for the Final Project application.
      * It sets the size of the window, sets the default close operation, and
@@ -48,7 +79,7 @@ public class Main extends JFrame {
      */
     public static void main(String[] args) {
         Main m = new Main();
-        m.setSize(900, 900);
+        m.setSize(1500, 1500);
         m.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         m.setVisible(true);
     }
