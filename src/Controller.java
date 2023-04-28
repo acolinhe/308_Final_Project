@@ -47,16 +47,8 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
         } else if (action.equals("Clear")) {
             clear();
         } else if (action.equals("About")) {
-            JPanel panel = new JPanel(new BorderLayout());
-            ImageIcon imageIcon = new ImageIcon("src/images/poly2.png");
-            JLabel label = new JLabel(imageIcon);
-            panel.add(label, BorderLayout.CENTER);
-            JLabel description = new JLabel("Anthony Colin, Shiv Panchal, Luke Fanguna, Nathan Choi, Reza Mousakhani, Luke Franks");
-            description.setFont(description.getFont().deriveFont(Font.BOLD));
-            panel.add(description, BorderLayout.SOUTH);
-            panel.setPreferredSize(new Dimension(600, 300));
-            panel.setMaximumSize(new Dimension(600, 300));
-            JOptionPane.showMessageDialog(null, panel, "Team Information", JOptionPane.PLAIN_MESSAGE);
+        	AboutArea ab = new AboutArea();
+        	ab.aboutInfo();
         } else if (action.equals("Save")){
             try {
                 Repository.getR().setAll();
@@ -110,18 +102,21 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
                     if (shape.equals("Begin")) {
                         Repository.getR().addShape(new Circle(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
                     } else if (shape.equals("End")) {
-                        FillDecorator decoratedCircle = new FillDecorator(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
-                        Repository.getR().addShape(decoratedCircle);
+                        Shape circle = new Circle(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
+                        Shape filledCircle = new FillDecorator(circle,x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
+                        Repository.getR().addShape(filledCircle);
                     } else if (shape.equals("Call a method")) {
-                        CallDecorator decoratedCall = new CallDecorator(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
-                        Repository.getR().addShape(decoratedCall);
+                        Shape rectangle = new Rectangle(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
+                        Shape callMethod = new CallDecorator(rectangle, x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
+                        Repository.getR().addShape(callMethod);
                     } else if (shape.equals("Instruction")) {
                         Repository.getR().addShape(new Rectangle(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
                     } else if (shape.equals("Input or Output")) {
                         Repository.getR().addShape(new Parallelogram(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
                     } else if (shape.equals("Variable Declaration")) {
-                        VariableDecorate decoratedRect = new VariableDecorate(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
-                        Repository.getR().addShape(decoratedRect);
+                        Shape rectangle = new Rectangle(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
+                        Shape variableRect = new VariableDecorate(rectangle,x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
+                        Repository.getR().addShape(variableRect);
                     } else if (shape.equals("Condition")) {
                         Repository.getR().addShape(new Diamond(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
                     }
@@ -240,21 +235,22 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
      */
     @Override
     public void mouseDragged(MouseEvent e) {
-
-        Shape cond = null;
-
         for (Shape shape : Repository.getR().getShapes()) {
-
             if (shape.getFlag()) {
-                cond = shape;
                 int deltaX = e.getX() - prevPoint.x;
                 int deltaY = e.getY() - prevPoint.y;
                 shape.setLocation(shape.getX() + deltaX, shape.getY() + deltaY, shape.WIDTH, shape.HEIGHT);
-                prevPoint = e.getPoint();
-                repaint();
+                if (shape instanceof FillDecorator) {
+                    ((FillDecorator) shape).setLocation(shape.getX(), shape.getY(), shape.WIDTH, shape.HEIGHT);
+                } else if (shape instanceof ShapeDecorator) {
+                    ((ShapeDecorator) shape).setLocation(shape.getX(), shape.getY(), shape.WIDTH, shape.HEIGHT);
+                }
             }
         }
+        prevPoint = e.getPoint();
+        repaint();
     }
+
 
     /**
      * This method is called whenever the mouse is moved.
