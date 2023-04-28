@@ -16,6 +16,15 @@ public class VariableDecorate extends ShapeDecorator {
         decoratedShape.draw(g);
         drawVariableLines(g);
     }
+    
+    @Override
+    public void setLocation(int x, int y, int w, int h) {
+        this.x1 = x;
+        this.y1 = y;
+        this.WIDTH = w;
+        this.HEIGHT = h;
+        decoratedShape.setLocation(x, y, w, h);
+    }
 
     private void drawVariableLines(Graphics g) {
         int x1 = getX();
@@ -28,7 +37,7 @@ public class VariableDecorate extends ShapeDecorator {
         g2d.setStroke(new BasicStroke(2));
         g.drawLine(x1 + 10, y1 + 10, x1 + width - 10, y1 + 10);
         g.drawLine(x1 + 10, y1 + 10, x1 + 10, y1 + (height + 5) - 10);
-        g.drawString(text,super.x1+35,super.y1+45);
+        g2d.drawString(text,super.x1+35,super.y1+45);
         g2d.setStroke(oldStroke);
     }
 }

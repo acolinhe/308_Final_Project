@@ -16,6 +16,15 @@ public class CallDecorator extends ShapeDecorator {
         decoratedShape.draw(g);
         drawCallLines(g);
     }
+    
+    @Override
+    public void setLocation(int x, int y, int w, int h) {
+        this.x1 = x;
+        this.y1 = y;
+        this.WIDTH = w;
+        this.HEIGHT = h;
+        decoratedShape.setLocation(x, y, w, h);
+    }
 
     private void drawCallLines(Graphics g) {
         int x1 = getX();
@@ -27,7 +36,7 @@ public class CallDecorator extends ShapeDecorator {
         g2d.setStroke(new BasicStroke(2));
         g.drawLine(x1 + 10, y1, x1 + 10, y1 + height);
         g.drawLine(x1 + 90, y1, x1 + 90, y1 + height);
-        g.drawString(text,super.x1+35,super.y1+45);
+        g2d.drawString(text,super.x1+35,super.y1+45);
         g2d.setStroke(oldStroke);
     }
 }
