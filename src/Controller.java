@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.util.Stack;
 
 /**
  * This is the controller. This class represents all the controls of the entire program overall.

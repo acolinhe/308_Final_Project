@@ -30,22 +30,41 @@ public class Diamond extends Shape {
         g2d.setColor(c);
         g2d.setStroke(new BasicStroke(3));
         int diamondSize = 150;
-        int centerX = super.x1 + diamondSize / 2;
-        int centerY = super.y1 + diamondSize / 2;
-        int[] xPoints = {
-                centerX,
-                centerX + diamondSize / 2,
-                centerX,
-                centerX - diamondSize / 2
-        };
-        int[] yPoints = {
-                centerY - diamondSize / 2,
-                centerY,
-                centerY + diamondSize / 2,
-                centerY
-        };
+        int[] xPoints = calculateCenterX(diamondSize);
+        int[] yPoints = calculateCenterY(diamondSize);
+
         g2d.fillPolygon(xPoints, yPoints, 4);
         g.setColor(Color.BLACK);
         g.drawString(text, super.x1 + 50, super.y1 + 75);
+    }
+
+    public int[] calculateCenterX(int diamondSize) {
+        int centerX = super.x1 + diamondSize / 2;
+
+        return new int[] {
+                centerX,
+                calculateRight(centerX, diamondSize),
+                centerX,
+                calculateLeft(centerX, diamondSize)
+        };
+    }
+
+    public int[] calculateCenterY(int diamondSize) {
+        int centerY = super.x1 + diamondSize / 2;
+
+        return new int[] {
+                calculateLeft(centerY, diamondSize),
+                centerY,
+                calculateRight(centerY, diamondSize),
+                centerY
+        };
+    }
+
+    public int calculateLeft(int center, int diamondSize) {
+        return center - diamondSize / 2;
+    }
+
+    public int calculateRight(int center, int diamondSize) {
+        return center + diamondSize / 2;
     }
 }

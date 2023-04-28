@@ -28,11 +28,23 @@ public class Parallelogram extends Shape {
         g2d.setStroke(new BasicStroke(3));
 
         int yDiff = (int) (Math.sin(Math.toRadians(45)) * HEIGHT); // calculate difference in y-coordinates
-        int[] xPoints = {super.x1, super.x1 + WIDTH, super.x1 + WIDTH - yDiff, super.x1 - yDiff};
-        int[] yPoints = {super.y1, super.y1, super.y1 + HEIGHT, super.y1 + HEIGHT};
+        int[] xPoints = calculateX(yDiff);
+        int[] yPoints = calculateY();
         Polygon parallelogram = new Polygon(xPoints, yPoints, 4);
         g2d.fill(parallelogram);
         g.setColor(Color.BLACK);
         g.drawString(text, super.x1 + 35, super.y1 + 45);
+    }
+
+    public int[] calculateX(int yDiff) {
+        return new int[] {super.x1, super.x1 + WIDTH, xDiff(yDiff), super.x1 - yDiff};
+    }
+
+    public int[] calculateY() {
+        return new int[] {super.y1, super.y1, super.y1 + HEIGHT, super.y1 + HEIGHT};
+    }
+
+    public int xDiff(int yDiff) {
+        return super.x1 + WIDTH - yDiff;
     }
 }
