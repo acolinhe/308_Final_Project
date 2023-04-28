@@ -17,6 +17,8 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
     private final int HEIGHT = 50;
     private Point prevPoint;
     private int count = 0;
+    boolean exist = false;
+    private String shape;
 
     /**
      * Method below is inherited from ActionListener. It gets inputs from checkboxes which user operates With.
@@ -27,58 +29,48 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
     @Override
     public void actionPerformed(ActionEvent e) {
         String action = e.getActionCommand();
-
-        if (action.equals("Begin")) {
-            Repository.getR().setShape("Begin");
-        } else if (action.equals("End")) {
-            Repository.getR().setShape("End");
-        } else if (action.equals("Call a method")) {
-            Repository.getR().setShape("Call a method");
-        } else if (action.equals("Instruction")) {
-            Repository.getR().setShape("Instruction");
-        } else if (action.equals("Input or Output")) {
-            Repository.getR().setShape("Input or Output");
-        } else if (action.equals("Variable Declaration")) {
-            Repository.getR().setShape("Variable Declaration");
-        } else if (action.equals("Condition")) {
-            Repository.getR().setShape("Condition");
-        } else if (action.equals("Undo")) {
-            undo();
-        } else if (action.equals("Clear")) {
-            clear();
-        } else if (action.equals("About")) {
-            JPanel panel = new JPanel(new BorderLayout());
-            ImageIcon imageIcon = new ImageIcon("src/images/poly2.png");
-            JLabel label = new JLabel(imageIcon);
-            panel.add(label, BorderLayout.CENTER);
-            JLabel description = new JLabel("Anthony Colin, Shiv Panchal, Luke Fanguna, Nathan Choi, Reza Mousakhani, Luke Franks");
-            description.setFont(description.getFont().deriveFont(Font.BOLD));
-            panel.add(description, BorderLayout.SOUTH);
-            panel.setPreferredSize(new Dimension(600, 300));
-            panel.setMaximumSize(new Dimension(600, 300));
-            JOptionPane.showMessageDialog(null, panel, "Team Information", JOptionPane.PLAIN_MESSAGE);
-        } else if (action.equals("Save")){
-            try {
-                Repository.getR().setAll();
-                LoadOrSave.saveObjects(Repository.getR().getShapes(), Repository.getR().getLines(), Repository.getR().getFilePath());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+        String[] shapeArr = {"Begin", "End", "Call a method", "Instruction", "Input or Output", "Variable Declaration", "Condition"};
+        for (String shape : shapeArr) {
+            if (action.equals(shape)) {
+                Repository.getR().setShape(shape);
             }
-        } else if (action.equals("Load")) {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Load Diagram");
-            int userSelect = fileChooser.showOpenDialog(this);
-            if (userSelect == JFileChooser.APPROVE_OPTION){
+        }
+
+        switch (action) {
+            case "Undo":
+                undo();
+                break;
+            case "Clear":
+                clear();
+                break;
+            case "About":
+                AboutArea ab = new AboutArea();
+                ab.aboutInfo();
+                break;
+            case "Save":
                 try {
-                    Object[] objects = LoadOrSave.loadObjects(Repository.getR().getFilePath());
-                    Stack<Shape> loadedShapes = (Stack<Shape>) objects[0];
-                    Stack<Line> loadedLines = (Stack<Line>) objects[1];
-                    Repository.getR().setLoadShapes(loadedShapes);
-                    Repository.getR().setLoadLines(loadedLines);
-                } catch (IOException | ClassNotFoundException ex) {
+                    Repository.getR().setAll();
+                    LoadOrSave.saveObjects(Repository.getR().getShapes(), Repository.getR().getLines(), Repository.getR().getFilePath());
+                } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-            }
+                break;
+            case "Load":
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Load Diagram");
+                int userSelect = fileChooser.showOpenDialog(this);
+                if (userSelect == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        Object[] objects = LoadOrSave.loadObjects(Repository.getR().getFilePath());
+                        Stack<Shape> loadedShapes = (Stack<Shape>) objects[0];
+                        Stack<Line> loadedLines = (Stack<Line>) objects[1];
+                        Repository.getR().setLoadShapes(loadedShapes);
+                        Repository.getR().setLoadLines(loadedLines);
+                    } catch (IOException | ClassNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                break;
         }
     }
 
@@ -95,93 +87,123 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
         x1 = e.getX() - WIDTH / 2;
         y1 = e.getY() - HEIGHT / 2;
         Point p = new Point(e.getX(), e.getY());
+        shape = Repository.getR().getShape();
 
         if (e.getClickCount() == 1) {
-            for (Shape sh : Repository.getR().getShapes()) {
-                if (sh.contains(p)) {
-                    exist = true;
-                    break;
+            pointExistInShape(p);
+
+            if (!exist && !shape.isEmpty()) {
+                if (shape.equals("Begin")) {
+                    Repository.getR().addShape(new Circle(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
+                } else if (shape.equals("End")) {
+                    Shape circle = new Circle(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
+                    Shape filledCircle = new FillDecorator(circle, x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
+                    Repository.getR().addShape(filledCircle);
+                } else if (shape.equals("Call a method")) {
+                    Shape rectangle = new Rectangle(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
+                    Shape callMethod = new CallDecorator(rectangle, x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
+                    Repository.getR().addShape(callMethod);
+                } else if (shape.equals("Instruction")) {
+                    Repository.getR().addShape(new Rectangle(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
+                } else if (shape.equals("Input or Output")) {
+                    Repository.getR().addShape(new Parallelogram(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
+                } else if (shape.equals("Variable Declaration")) {
+                    Shape rectangle = new Rectangle(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
+                    Shape variableRect = new VariableDecorate(rectangle, x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
+                    Repository.getR().addShape(variableRect);
+                } else if (shape.equals("Condition")) {
+                    Repository.getR().addShape(new Diamond(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
                 }
+                repaint();
+
             }
 
-            String shape = Repository.getR().getShape();
-            if (!exist) {
-                if (!shape.isEmpty()) {
-                    if (shape.equals("Begin")) {
-                        Repository.getR().addShape(new Circle(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
-                    } else if (shape.equals("End")) {
-                        FillDecorator decoratedCircle = new FillDecorator(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
-                        Repository.getR().addShape(decoratedCircle);
-                    } else if (shape.equals("Call a method")) {
-                        CallDecorator decoratedCall = new CallDecorator(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
-                        Repository.getR().addShape(decoratedCall);
-                    } else if (shape.equals("Instruction")) {
-                        Repository.getR().addShape(new Rectangle(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
-                    } else if (shape.equals("Input or Output")) {
-                        Repository.getR().addShape(new Parallelogram(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
-                    } else if (shape.equals("Variable Declaration")) {
-                        VariableDecorate decoratedRect = new VariableDecorate(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color);
-                        Repository.getR().addShape(decoratedRect);
-                    } else if (shape.equals("Condition")) {
-                        Repository.getR().addShape(new Diamond(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
-                    }
-                    repaint();
-                }
-            }
-
-            if (!shape.equals("Begin") && !shape.equals("End")) {
-                for (Shape sp : Repository.getR().getShapes()) {
-                    if (sp.contains(p) && !sp.isTextDefined() && !exist) {
-                        JFrame frame = new JFrame();
-                        String result = JOptionPane.showInputDialog(frame, "Enter expression:");
-                        sp.setText(result);
-                        repaint();
-                        sp.setTextDefined(true);
-                    }
-                    sp.setTextDefined(false);
-                }
-            }
+            noTextEntriesShape(p);
         }
 
         for (Shape sp : Repository.getR().getShapes()) {
-            if (e.getClickCount() == 2) {
-                if (sp.contains(p)) {
-                    if (e.getClickCount() == 2) {
-                        Repository.getR().addC(sp);
-                    }
-
-                    if (Repository.getR().getC().size() > 2) {
-                        Shape shape = Repository.getR().getC().pop();
-                        Repository.getR().clearC();
-                        Repository.getR().getC().push(shape);
-                    }
-
-                    System.out.println(Repository.getR().getC());
-                    if (Repository.getR().getC().size() == 2) {
-                        Line line = new Line(Repository.getR().getC().get(0), Repository.getR().getC().get(1));
-                        Repository.getR().addLine(line);
-                        Repository.getR().setLine(line);
-
-                        if (count % 2 == 1) {
-                            line.setFlag(true);
-                        } else {
-                            line.setFlag(false);
-                        }
-                        count++;
-
-                        if (Repository.getR().getC().get(0).toString().contains("Diamond")) {
-                            line.lineMessage(true);
-                            System.out.println("true");
-
-                        } else {
-                            line.lineMessage(false);
-                            System.out.println("false");
-                        }
-                    }
-                }
-            }
+            pointExistInShape(e, p, sp);
         }
         repaint();
+    }
+
+    private void noTextEntriesShape(Point p) {
+        if (!shape.equals("Begin") && !shape.equals("End")) {
+            for (Shape sp : Repository.getR().getShapes()) {
+                if (sp.contains(p) && !sp.isTextDefined() && !exist) {
+                    JFrame frame = new JFrame();
+                    String result = JOptionPane.showInputDialog(frame, "Enter expression:");
+                    sp.setText(result);
+                    repaint();
+                    sp.setTextDefined(true);
+                }
+                sp.setTextDefined(false);
+            }
+        }
+    }
+
+    private void pointExistInShape(Point p) {
+        for (Shape sh : Repository.getR().getShapes()) {
+            if (sh.contains(p)) {
+                exist = true;
+                break;
+            }
+        }
+    }
+
+    private void moreThanTwoShapes() {
+        if (Repository.getR().getC().size() > 2) {
+            Shape shape = Repository.getR().getC().pop();
+            Repository.getR().clearC();
+            Repository.getR().getC().push(shape);
+        }
+    }
+
+    private void setLineFlags(Line line) {
+        if (count % 2 == 1) {
+            line.setFlag(true);
+        } else {
+            line.setFlag(false);
+        }
+        count++;
+    }
+
+    private void lineMessages(Line line) {
+        if (Repository.getR().getC().get(0).toString().contains("Diamond")) {
+            line.lineMessage(true);
+            System.out.println("true");
+
+        } else {
+            line.lineMessage(false);
+            System.out.println("false");
+        }
+    }
+
+    private void something() {
+        if (Repository.getR().getC().size() == 2) {
+            Line line = new Line(Repository.getR().getC().get(0), Repository.getR().getC().get(1));
+            Repository.getR().addLine(line);
+            Repository.getR().setLine(line);
+
+            //setting line flags
+            setLineFlags(line);
+
+            //line messages
+            lineMessages(line);
+
+        }
+    }
+
+    private void pointExistInShape(MouseEvent e, Point p, Shape sp) {
+        if (e.getClickCount() == 2 && sp.contains(p)) {
+            Repository.getR().addC(sp);
+
+            //removing if more than two shapes
+            moreThanTwoShapes();
+
+            //Something
+            something();
+        }
     }
 
     /**
@@ -240,21 +262,22 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
      */
     @Override
     public void mouseDragged(MouseEvent e) {
-
-        Shape cond = null;
-
         for (Shape shape : Repository.getR().getShapes()) {
-
             if (shape.getFlag()) {
-                cond = shape;
                 int deltaX = e.getX() - prevPoint.x;
                 int deltaY = e.getY() - prevPoint.y;
                 shape.setLocation(shape.getX() + deltaX, shape.getY() + deltaY, shape.WIDTH, shape.HEIGHT);
-                prevPoint = e.getPoint();
-                repaint();
+                if (shape instanceof FillDecorator) {
+                    ((FillDecorator) shape).setLocation(shape.getX(), shape.getY(), shape.WIDTH, shape.HEIGHT);
+                } else if (shape instanceof ShapeDecorator) {
+                    ((ShapeDecorator) shape).setLocation(shape.getX(), shape.getY(), shape.WIDTH, shape.HEIGHT);
+                }
             }
         }
+        prevPoint = e.getPoint();
+        repaint();
     }
+
 
     /**
      * This method is called whenever the mouse is moved.

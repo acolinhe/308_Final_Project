@@ -54,15 +54,7 @@ public abstract class Shape implements Serializable {
      * @return true if the point is inside the shape, false otherwise
      */
     public boolean contains(Point point) {
-        return containsLeft(point) && containsRight(point);
-    }
-
-    public boolean containsLeft(Point point) {
-        return point.getX() >= x1 && point.getX() <= WIDTH;
-    }
-
-    public boolean containsRight(Point point) {
-        return point.getY() >= y1 && point.getY() <= HEIGHT;
+        return point.getX() >= x1 && point.getX() <= WIDTH && point.getY() >= y1 && point.getY() <= HEIGHT;
     }
 
     /**
@@ -105,6 +97,14 @@ public abstract class Shape implements Serializable {
      */
     public int getY() {
         return y1;
+    }
+    
+    public int getWIDTH() {
+    	return WIDTH;
+    }
+    
+    public int getHEIGHT() {
+    	return HEIGHT;
     }
 
     /**
@@ -160,4 +160,5 @@ public abstract class Shape implements Serializable {
     public String getText() {
         return text;
     }
+    
 }
