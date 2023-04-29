@@ -7,7 +7,7 @@ import java.util.Observable;
  *
  * @author Anthony Colin, Shiv Panchal, Luke Fanguna, Nathan Choi, Reza Mousakhani, Luke Franks
  */
-public class Repository extends Observable {
+public class Repository extends Observable implements RepositoryInterface{
     private String filePath = getDesktopPath() + "diagram.bin";
     private String shape;
     private boolean lineFlag = false;
