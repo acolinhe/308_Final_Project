@@ -19,6 +19,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
     private int count = 0;
     boolean exist = false;
     private String shape;
+    private RepositoryInterface repo = Repository.getR();
 
     /**
      * Method below is inherited from ActionListener. It gets inputs from checkboxes which user operates With.
