@@ -1,18 +1,11 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
@@ -30,12 +23,10 @@ public class Main extends JFrame {
      */
     public Main() {
         super("Final Project");
-        Repository repo = Repository.getR();
         Menu menu = new Menu();
         StatusArea status = new StatusArea();
         WorkingArea work = new WorkingArea();
         ChatArea chat = new ChatArea();
-        repo.addObserver(status);
         status.setBackground(Color.WHITE);
         status.setForeground(Color.BLACK);
         status.setBorder(BorderFactory.createEtchedBorder());
