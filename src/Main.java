@@ -12,7 +12,7 @@ import javax.swing.WindowConstants;
  * The Main class extends a built-in library, JFrame, to create a main window
  * for the Final Project program. The program is a simple flow-chart diagram.
  *
- * @author Anthony Colin, Shiv Panchal, Luke Fanguna, Nathan Choi, Reza Mousakhani, Luke Franks
+ * @author Anthony Colin, Shiv Panchal, Luke Fanguna, Nathan Choi, Reza Mousakhani, Luke Franks.
  */
 public class Main extends JFrame {
     /**
