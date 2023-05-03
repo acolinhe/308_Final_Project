@@ -3,9 +3,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * The Rectangle class represents a rectangle shape that extends from the Shape class. It inherits the properties
- * and methods of the Shape class and overrides the draw method to draw a rectangle using the given coordinates and
- * color.
+ * The DBConn class establishes the connection between this project and the MySql database. Through this class, other
+ * classes have the ability to connect to the database. The credentials used to connect to the database are securely
+ * stored in a local environment.
 
  * @author Reza Mousakhani, Anthony Colin, Luke Fanguna, Luke Franks, Nathan Choi, & Shiv Panchal
  */

@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
@@ -69,13 +70,13 @@ public class Main extends JFrame {
      * It sets the size of the window, sets the default close operation, and
      * makes the window visible.
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         Main m = new Main();
         m.setSize(1500, 1500);
         m.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         m.setVisible(true);
 
         // For DB testing. Will remove.
-        new LoginCredentials().tryConnect();
+        new LoginCredentials().createUser("mooser", "IHaveAPoopyButthole1", "rm@gmail.com");
     }
 }
