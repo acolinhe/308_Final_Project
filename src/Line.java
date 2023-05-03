@@ -104,6 +104,7 @@ public class Line implements Serializable {
     /**
      * This sets the flag we use to alternate the text of the line
      *
+     *
      * @param flag boolean variable to set the flag
      */
     public void setFlag(boolean flag) {
