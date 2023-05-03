@@ -1,45 +1,33 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
+import java.util.concurrent.ThreadLocalRandom;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class ChatArea extends JPanel {
-    private JTextArea chatTextArea;
-    private JTextField messageTextField;
+public class ChatArea extends JPanel{
+    public static JTextPane chatTextArea;
+    public static JTextField messageTextField;
     
     public ChatArea() {
         setLayout(new BorderLayout());
+        ControllerGPT cpt = new ControllerGPT();
         
         // Create a panel for the chat window
         JPanel chatPanel = new JPanel();
         chatPanel.setLayout(new BoxLayout(chatPanel, BoxLayout.PAGE_AXIS));
         
-        // Create a scroll pane for the chat window
-        JScrollPane chatScrollPane = new JScrollPane(chatPanel);
-        chatScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        chatScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        chatScrollPane.setPreferredSize(new Dimension(400, 400));
-        
         // Create a text area for the chat messages
-        chatTextArea = new JTextArea();
+        chatTextArea = new JTextPane();
         chatTextArea.setEditable(false);
-        chatTextArea.setLineWrap(true);
-        chatTextArea.setWrapStyleWord(true);
-        chatPanel.add(chatTextArea);
-        
-        add(chatScrollPane, BorderLayout.CENTER);
+        chatTextArea.setContentType("text/html");
+        chatTextArea.setFont(new Font("Monospaced", Font.BOLD,14));
+        chatTextArea.setBackground(Color.decode("#343541"));
+
+        //Create a scroll pane for the chat window
+        JScrollPane scrollPane = new JScrollPane(chatTextArea);
+        scrollPane.add(chatPanel);
+        add(scrollPane, BorderLayout.CENTER);
         
         // Create a panel for the message input and send button
         JPanel messagePanel = new JPanel(new BorderLayout());
@@ -55,6 +43,7 @@ public class ChatArea extends JPanel {
         // Create a send button for sending the message
         JButton sendButton = new JButton("Send");
         messagePanel.add(sendButton, BorderLayout.EAST);
+        sendButton.addActionListener(cpt);
         
         add(messagePanel, BorderLayout.SOUTH);
         JLabel helpLabel = new JLabel("Need Help? Ask Professor GPT!");
