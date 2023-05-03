@@ -21,6 +21,7 @@ public class StatusArea extends JPanel implements Observer {
 		status = new JTextArea("Status: ");
 		status.setEditable(false);
 		status.setBackground(Color.WHITE);
+		Repository.getR().addObserver(this);
 		status.setBorder(BorderFactory.createEmptyBorder());
 		//status.setHorizontalAlignment(JTextArea.LEFT);
 		status.setForeground(Color.BLACK);

@@ -85,14 +85,14 @@ public class Line implements Serializable {
      * This helps the line to point to the center of the shape
      *
      * @param x this is the shape object which we are making the center of
-     * @return returns a point object that is the center of the shape
+     * @return return a point object that is the center of the shapes
      */
     private Point center(Shape x) {
         return new Point(x.x1+50, x.y1+50);
     }
 
     /**
-     * This creates a message that changes the text on the line if the connection starts
+     * This creates a message that changes the  text on the line if the connection starts
      * with a diamond
      *
      * @param cond boolean that sets the diamond
@@ -103,6 +103,7 @@ public class Line implements Serializable {
 
     /**
      * This sets the flag we use to alternate the text of the line
+     *
      *
      * @param flag boolean variable to set the flag
      */
