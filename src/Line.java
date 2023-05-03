@@ -85,7 +85,7 @@ public class Line implements Serializable {
      * This helps the line to point to the center of the shape
      *
      * @param x this is the shape object which we are making the center of
-     * @return returns a point object that is the center of the shapes
+     * @return return a point object that is the center of the shapes
      */
     private Point center(Shape x) {
         return new Point(x.x1+50, x.y1+50);
