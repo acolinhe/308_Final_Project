@@ -1,3 +1,6 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * The Rectangle class represents a rectangle shape that extends from the Shape class. It inherits the properties
@@ -9,7 +12,12 @@
 
 public class DBConn {
     String DB = System.getenv("DB");
-    String USER = System.getenv("USER");
+    String USER = System.getenv("USERNAME");
     String HOST = System.getenv("HOST");
     String PASS = System.getenv("PASSWORD");
+
+    Connection conn = DriverManager.getConnection(HOST, USER, PASS);
+
+    public DBConn() throws SQLException {
+    }
 }
