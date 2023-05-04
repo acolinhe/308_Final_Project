@@ -77,6 +77,6 @@ public class Main extends JFrame {
         m.setVisible(true);
 
         // For DB testing. Will remove.
-        new LoginCredentials().createUser("mooser", "IHaveAPoopyButthole1", "rm@gmail.com");
+        System.out.println(new LoginCredentials().userLogin("moosers", "IHaveAPoopyButthole1"));
     }
 }

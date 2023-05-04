@@ -6,21 +6,31 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class LoginCredentials extends DBConn {
-    // Will delete this
-//    public void tryConnect() throws SQLException, NoSuchAlgorithmException {
-//        String sql = " SELECT * FROM Users ";
-//        Statement statement = conn.createStatement();
-//        ResultSet result = statement.executeQuery(sql);
-//
-//        while (result.next()) {
-//            String name = result.getString("pass");
-//            System.out.println(name);
-//            System.out.println(hashPasswords(name));
-//        }
-//    }
 
+    // need to test
+    public boolean userLogin(String username, String password) throws NoSuchAlgorithmException, SQLException {
+        String sql = " SELECT * FROM Users WHERE username = ? and pass = ? ";
+        String hashedPass = hashPasswords(password);
+        PreparedStatement statement = conn.prepareStatement(sql);
+
+        statement.setString(1, username);
+        statement.setString(2, hashedPass);
+
+        ResultSet result = statement.executeQuery();
+
+        if (result.next()) {
+            return true;
+        }
+        else {
+            System.out.println("Either Username or Password is Incorrect. Please Try Again.");
+            return false;
+        }
+
+    }
+
+    // need to test
     public void createUser(String username, String password, String email) throws SQLException, NoSuchAlgorithmException {
-        String sql = " INSERT INTO Users (username, pass, email) VALUES (?, ?, ?)";
+        String sql = " INSERT INTO Users (username, pass, email) VALUES (?, ?, ?) ";
         String hashedPass = hashPasswords(password);
         PreparedStatement statement = conn.prepareStatement(sql);
 
