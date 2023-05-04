@@ -45,6 +45,38 @@ public class LoginCredentials extends DBConn {
 
     }
 
+    // need to test
+    public void changePassword(String username, String oldPass, String newPass) throws NoSuchAlgorithmException, SQLException {
+        String sql = " SELECT * FROM Users WHERE username = ? and pass = ? ";
+        String hashedPass = hashPasswords(oldPass);
+        PreparedStatement statement = conn.prepareStatement(sql);
+
+        statement.setString(1, username);
+        statement.setString(2, hashedPass);
+
+        ResultSet result = statement.executeQuery();
+
+        if (result.next()) {
+            String sqlPassChange = " UPDATE Users SET pass = ? WHERE username = ? ";
+            String updatedHashPass = hashPasswords(newPass);
+            PreparedStatement newStatement = conn.prepareStatement(sqlPassChange);
+
+            newStatement.setString(1, updatedHashPass);
+            newStatement.setString(2, username);
+
+            int rowsUpdated = newStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Password changed correctly!");
+            } else {
+                System.out.println("Password update failed.");
+            }
+        }
+        else {
+            System.out.println("Your given credentials are incorrect. Please try again.");
+        }
+    }
+
     private static String hashPasswords(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         byte[] hash = md.digest(password.getBytes());
