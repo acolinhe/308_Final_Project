@@ -16,6 +16,7 @@ public class Line implements Serializable {
     boolean flag;
     Stack<String> message = new Stack<>();
     Stack<Shape> connect = new Stack<Shape>();
+    RepositoryInterface repo = Repository.getR();
 
     /**
      * This is the constructor that helps initialize variables for the Line class
@@ -39,46 +40,77 @@ public class Line implements Serializable {
      * @param g the Graphics object to draw on
      */
     public void draw(Graphics g) {
-        String str = "";
-
         Point start = center(connect.get(0));
         Point end = center(connect.get(1));
-        g.drawLine(start.x, start.y, end.x, end.y);
+        int startx=start.x,starty=start.y,endx=end.x,endy=end.y;
+        if (start.y+50 < end.y && start.y-50 > end.y)
+        {
+            endx = end.x;
+            endy = end.y;
+        }
+        else if (start.y+50 < end.y)
+        {
+            endx = end.x;
+            endy = end.y-40;
+        }
+        else
+        {
+            endx = end.x;
+            endy = end.y+40;
+        }
+        if (start.x + 50 > end.x && start.x - 50 < end.x)
+        {
+            startx = start.x;
+            if (start.y + 50 < end.y)
+                starty = start.y + 50;
+            else if (start.y - 50 > end.y)
+                starty = start.y - 50;
+        }
+        else if (start.x + 50 < end.x)
+        {
+            startx = start.x + 50;
+            starty = start.y;
+        }
+        else if (start.x - 50 > end.x)
+        {
+            startx = start.x - 50;
+            starty = start.y;
+        }
+        g.drawLine(startx, starty, endx, endy);
 
         // Calculate the midpoint and angle of the line segment
-        int midX = (start.x + end.x) / 2;
-        int midY = (start.y + end.y) / 2;
-        double angle = Math.atan2(end.y - start.y, end.x - start.x);
+        int midX = (startx + endx) / 2;
+        int midY = (starty + endy) / 2;
+        double angle = Math.atan2(endy - starty, endx - startx);
 
         // Calculate the coordinates of the arrowhead vertices
         int arrowSize = 10;
         int arrowAngle = 30; // in degrees
         double arrowLength = arrowSize / Math.sin(Math.toRadians(arrowAngle));
-        int arrowX1 = (int) (midX - arrowLength * Math.cos(angle - Math.toRadians(arrowAngle)));
-        int arrowY1 = (int) (midY - arrowLength * Math.sin(angle - Math.toRadians(arrowAngle)));
-        int arrowX2 = (int) (midX - arrowLength * Math.cos(angle + Math.toRadians(arrowAngle)));
-        int arrowY2 = (int) (midY - arrowLength * Math.sin(angle + Math.toRadians(arrowAngle)));
+        int arrowX1 = (int) (endx - arrowLength * Math.cos(angle - Math.toRadians(arrowAngle)));
+        int arrowY1 = (int) (endy - arrowLength * Math.sin(angle - Math.toRadians(arrowAngle)));
+        int arrowX2 = (int) (endx - arrowLength * Math.cos(angle + Math.toRadians(arrowAngle)));
+        int arrowY2 = (int) (endy - arrowLength * Math.sin(angle + Math.toRadians(arrowAngle)));
 
         // Draw the arrowhead polygon
-        int[] arrowX = {midX, arrowX1, arrowX2};
-        int[] arrowY = {midY, arrowY1, arrowY2};
+        int[] arrowX = {endx, arrowX1, arrowX2};
+        int[] arrowY = {endy, arrowY1, arrowY2};
         g.fillPolygon(arrowX, arrowY, 3);
 
 
         if (diamond) {
             if (connect.get(0).toString().contains("Diamond")) {
-                int[] textArrow = {midY, arrowY1 + 25, arrowY2};
                 if (flag) {
-                    Repository.getR().setTextbox("false");
+                    repo.setTextbox("false");
 
                 } else {
-                    Repository.getR().setTextbox("true");
+                    repo.setTextbox("true");
                 }
             }
         } else {
-            Repository.getR().setTextbox("");
+            repo.setTextbox("");
         }
-        g.drawString(Repository.getR().getTextbox(), arrowX1, arrowY1 + 25);
+        g.drawString(repo.getTextbox(), arrowX1, arrowY1 + 25);
     }
 
     /**
