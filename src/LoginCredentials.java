@@ -6,21 +6,31 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class LoginCredentials extends DBConn {
-    // Will delete this
-//    public void tryConnect() throws SQLException, NoSuchAlgorithmException {
-//        String sql = " SELECT * FROM Users ";
-//        Statement statement = conn.createStatement();
-//        ResultSet result = statement.executeQuery(sql);
-//
-//        while (result.next()) {
-//            String name = result.getString("pass");
-//            System.out.println(name);
-//            System.out.println(hashPasswords(name));
-//        }
-//    }
 
+    // need to test
+    public boolean userLogin(String username, String password) throws NoSuchAlgorithmException, SQLException {
+        String sql = " SELECT * FROM Users WHERE username = ? and pass = ? ";
+        String hashedPass = hashPasswords(password);
+        PreparedStatement statement = conn.prepareStatement(sql);
+
+        statement.setString(1, username);
+        statement.setString(2, hashedPass);
+
+        ResultSet result = statement.executeQuery();
+
+        if (result.next()) {
+            return true;
+        }
+        else {
+            System.out.println("Either Username or Password is Incorrect. Please Try Again.");
+            return false;
+        }
+
+    }
+
+    // need to test
     public void createUser(String username, String password, String email) throws SQLException, NoSuchAlgorithmException {
-        String sql = " INSERT INTO Users (username, pass, email) VALUES (?, ?, ?)";
+        String sql = " INSERT INTO Users (username, pass, email) VALUES (?, ?, ?) ";
         String hashedPass = hashPasswords(password);
         PreparedStatement statement = conn.prepareStatement(sql);
 
@@ -33,6 +43,38 @@ public class LoginCredentials extends DBConn {
             System.out.println("A new user was inserted successfully!");
         }
 
+    }
+
+    // need to test
+    public void changePassword(String username, String oldPass, String newPass) throws NoSuchAlgorithmException, SQLException {
+        String sql = " SELECT * FROM Users WHERE username = ? and pass = ? ";
+        String hashedPass = hashPasswords(oldPass);
+        PreparedStatement statement = conn.prepareStatement(sql);
+
+        statement.setString(1, username);
+        statement.setString(2, hashedPass);
+
+        ResultSet result = statement.executeQuery();
+
+        if (result.next()) {
+            String sqlPassChange = " UPDATE Users SET pass = ? WHERE username = ? ";
+            String updatedHashPass = hashPasswords(newPass);
+            PreparedStatement newStatement = conn.prepareStatement(sqlPassChange);
+
+            newStatement.setString(1, updatedHashPass);
+            newStatement.setString(2, username);
+
+            int rowsUpdated = newStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Password changed correctly!");
+            } else {
+                System.out.println("Password update failed.");
+            }
+        }
+        else {
+            System.out.println("Your given credentials are incorrect. Please try again.");
+        }
     }
 
     private static String hashPasswords(String password) throws NoSuchAlgorithmException {
