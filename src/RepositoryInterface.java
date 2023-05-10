@@ -103,4 +103,5 @@ public interface RepositoryInterface
      * @return stack of objects
      */
     public Stack<Object> getAll();
+
 }

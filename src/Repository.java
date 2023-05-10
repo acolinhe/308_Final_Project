@@ -18,11 +18,13 @@ public class Repository extends Observable implements RepositoryInterface{
     private Stack<Object> all = new Stack<>();
     private static Repository repo;
     private String textbox;
+    private int count;
 
     /**
      * Allows Repository to not be changed out of scope
      */
     private Repository() {
+        this.count = 0;
     }
 
     /**
@@ -203,4 +205,7 @@ public class Repository extends Observable implements RepositoryInterface{
     public Stack<Object> getAll() {
         return all;
     }
+
+
+
 }
