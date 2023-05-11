@@ -16,7 +16,7 @@ public class VariableDecorate extends ShapeDecorator {
         decoratedShape.draw(g);
         drawVariableLines(g);
     }
-    
+
     @Override
     public void setLocation(int x, int y, int w, int h) {
         this.x1 = x;

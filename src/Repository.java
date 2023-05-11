@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.File;
 import java.util.*;
 import java.util.Observable;
@@ -18,13 +19,14 @@ public class Repository extends Observable implements RepositoryInterface{
     private Stack<Object> all = new Stack<>();
     private static Repository repo;
     private String textbox;
-    private int count;
+    private JTextPane chatTextArea;
+    private JTextField messageTextField;
+
 
     /**
      * Allows Repository to not be changed out of scope
      */
     private Repository() {
-        this.count = 0;
     }
 
     /**
@@ -206,6 +208,18 @@ public class Repository extends Observable implements RepositoryInterface{
         return all;
     }
 
+    public void setChatTextArea(){
+        this.chatTextArea = new JTextPane();
+    }
+    public void setMessageTextField(){
+        this.messageTextField = new JTextField();
+    }
 
+    public JTextPane getChatTextArea(){
+        return repo.chatTextArea;
+    }
 
+    public JTextField getMessageTextField(){
+        return repo.messageTextField;
+    }
 }

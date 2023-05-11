@@ -6,19 +6,20 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class ChatArea extends JPanel{
-    public static JTextPane chatTextArea;
-    public static JTextField messageTextField;
-    
+
     public ChatArea() {
         setLayout(new BorderLayout());
         ControllerGPT cpt = new ControllerGPT();
+        Repository repo = Repository.getR();
         
         // Create a panel for the chat window
         JPanel chatPanel = new JPanel();
         chatPanel.setLayout(new BoxLayout(chatPanel, BoxLayout.PAGE_AXIS));
         
         // Create a text area for the chat messages
-        chatTextArea = new JTextPane();
+
+        repo.setChatTextArea();
+        JTextPane chatTextArea = repo.getChatTextArea();
         chatTextArea.setEditable(false);
         chatTextArea.setContentType("text/html");
         chatTextArea.setFont(new Font("Monospaced", Font.BOLD,14));
@@ -36,7 +37,8 @@ public class ChatArea extends JPanel{
                 BorderFactory.createLineBorder(Color.GRAY)));
         
         // Create a text field for the message input
-        messageTextField = new JTextField();
+        repo.setMessageTextField();
+        JTextField messageTextField = repo.getMessageTextField();
         messageTextField.setPreferredSize(new Dimension(350, 30));
         messagePanel.add(messageTextField, BorderLayout.CENTER);
         

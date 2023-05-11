@@ -14,7 +14,6 @@ public class Line implements Serializable {
     private static final long serialVersionUID = 1L;
     boolean diamond = false;
     boolean flag;
-    int count;
     Stack<String> message = new Stack<>();
     Stack<Shape> connect = new Stack<Shape>();
     RepositoryInterface repo = Repository.getR();
@@ -31,6 +30,7 @@ public class Line implements Serializable {
         message.push("false");
         connect.push(first);
         connect.push(second);
+
     }
 
     /**
@@ -100,7 +100,7 @@ public class Line implements Serializable {
 
         if (diamond) {
             if (connect.get(0).toString().contains("Diamond")) {
-                if (count % 2 == 1) {
+                if (flag) {
                     repo.setTextbox("true");
                 } else {
                     repo.setTextbox("false");
