@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * The Rectangle class represents a rectangle shape that extends from the Shape class. It inherits the properties
@@ -30,7 +31,34 @@ public class Rectangle extends Shape {
         g.setColor(Color.BLACK);
         g.drawRect(super.x1, super.y1, 100, 100);
         g.setColor(Color.BLACK);
-        g.drawString(text,super.x1+35,super.y1+45);
+        textToNewLine(g);
+    }
 
+    public void textToNewLine(Graphics g){
+        FontMetrics fm = g.getFontMetrics();
+        int x = super.x1 + 10; // Start drawing text at x = x1 + 35
+        int y = super.y1 + fm.getAscent() + 45; // Start drawing text at y = y1 + ascent + 45
+        int maxWidth = 90; // Maximum width of text that will fit inside the shape
+
+        String[] lines = text.split("\n");
+        for (String line : lines) {
+            int lineWidth = 0;
+            StringBuilder currentLine = new StringBuilder();
+            for (char c : line.toCharArray()) {
+                int charWidth = fm.charWidth(c);
+                if (lineWidth + charWidth > maxWidth) {
+                    // Draw the current line and move to the next line
+                    g.drawString(currentLine.toString().trim(), x, y);
+                    y += fm.getHeight();
+                    lineWidth = 0;
+                    currentLine = new StringBuilder();
+                }
+                lineWidth += charWidth;
+                currentLine.append(c);
+            }
+            // Draw the last line
+            g.drawString(currentLine.toString().trim(), x, y);
+            y += fm.getHeight();
+        }
     }
 }
