@@ -8,6 +8,7 @@ import java.util.Observable;
  * @author Anthony Colin, Shiv Panchal, Luke Fanguna, Nathan Choi, Reza Mousakhani, Luke Franks
  */
 public class Repository extends Observable implements RepositoryInterface{
+    private int loopsProgress = 40, conditionalProgress = 70, metricsProgress = 20, diagramsProgress = 0;
     private String filePath = getDesktopPath() + "diagram.bin";
     private String shape;
     private boolean lineFlag = false;
@@ -202,5 +203,19 @@ public class Repository extends Observable implements RepositoryInterface{
      */
     public Stack<Object> getAll() {
         return all;
+    }
+
+    public int getLoopsProgress(){
+        return loopsProgress;
+    }
+
+    public int getConditionalProgress(){
+        return conditionalProgress;
+    }
+    public int getMetricsProgress(){
+        return metricsProgress;
+    }
+    public int getDiagramsProgress(){
+        return diagramsProgress;
     }
 }

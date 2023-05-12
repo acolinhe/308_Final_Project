@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -20,6 +21,8 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
     boolean exist = false;
     private String shape;
     private RepositoryInterface repo = Repository.getR();
+    private QuestionArea questionArea;
+
 
     /**
      * Method below is inherited from ActionListener. It gets inputs from checkboxes which user operates With.
@@ -72,6 +75,15 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
                     }
                 }
                 break;
+            case "Results":
+                ProgressArea progressArea = new ProgressArea();
+                JFrame progressFrame = new JFrame("Progress");
+                progressFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                progressFrame.getContentPane().add(progressArea);
+                progressFrame.pack();
+                progressFrame.setVisible(true);
+                break;
+
         }
     }
 

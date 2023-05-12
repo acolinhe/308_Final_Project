@@ -18,7 +18,7 @@ public class WorkingArea extends JPanel{
 	public WorkingArea() {
 		repo = Repository.getR();
 		Controller controller = new Controller();
-		Repository.getR().setShape("");
+		repo.setShape("");
 		setBackground(Color.decode("#ADD8E6"));
 		addMouseListener(controller);
 		addMouseMotionListener(controller);

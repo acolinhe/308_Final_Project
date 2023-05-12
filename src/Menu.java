@@ -25,12 +25,14 @@ public class Menu extends JMenuBar {
 		JMenu helpMenu = new JMenu("Help");
 		JMenu newMenu = new JMenu("New");
 		JMenu editMenu = new JMenu("Edit");
+		JMenu resultsMenu = new JMenu("Results");
 
 		JCheckBoxMenuItem save = new JCheckBoxMenuItem("Save");
 		JCheckBoxMenuItem load = new JCheckBoxMenuItem("Load");
 		JCheckBoxMenuItem about = new JCheckBoxMenuItem("About");
 		JCheckBoxMenuItem undo = new JCheckBoxMenuItem("Undo");
 		JCheckBoxMenuItem clear = new JCheckBoxMenuItem("Clear");
+		JCheckBoxMenuItem results = new JCheckBoxMenuItem("Results");
 
 		String[] itemNames = {"Begin", "End", "Call a method", "Instruction", "Input or Output", "Variable Declaration", "Condition"};
 		String[] itemIcons = {"src/images/begin.png", "src/images/end.png", "src/images/call.png", "src/images/instruction.png", "src/images/inputOutput.png", "src/images/variable.png", "src/images/condition.png"};
@@ -56,8 +58,11 @@ public class Menu extends JMenuBar {
 		editMenu.add(undo);
 		editMenu.add(clear);
 
+		resultsMenu.add(results);
+
 		menuBar.add(fileMenu);
 		menuBar.add(editMenu);
+		menuBar.add(resultsMenu);
 		menuBar.add(helpMenu);
 
 		about.addActionListener(controller);
@@ -71,7 +76,7 @@ public class Menu extends JMenuBar {
 		setBorder(BorderFactory.createEtchedBorder());
 		add(menuBar);
 
-
+		results.addActionListener(controller);
 		save.addActionListener(controller);
 		load.addActionListener(controller);
 
