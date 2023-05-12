@@ -19,7 +19,7 @@ public class Repository extends Observable implements RepositoryInterface{
     private HashMap<String, Integer> actual = new HashMap<>();
     private HashMap<String, Integer> userAns = new HashMap<>();
 
-    private String[] mainObjects = {"Begin", "End", "Call a method", "Instruction", "Input or Output", "Variable Declaration", "Condition"};
+    private String[] mainObjects = {"Begin", "End", "Call a method", "Instruction", "Input or Output", "Variable Declaration", "Condition", "Lines"};
     private Stack<Object> all = new Stack<>();
     private static Repository repo;
     private String textbox;

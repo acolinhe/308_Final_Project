@@ -12,6 +12,7 @@ public class FlowchartComparator {
         repo.putActual("Input or Output", 1);
         repo.putActual("Variable Declaration", 1);
         repo.putActual("End", 1);
+        repo.putActual("Lines", 1);
     }
 
     public boolean compareFlowchartAnswers() {
