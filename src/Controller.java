@@ -70,8 +70,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
                 }
             }
             case "Submit" -> {
-                FlowchartComparator fc = new FlowchartComparator();
-                fc.createUserAnswer();
+                JOptionPane.showMessageDialog(null, "Correct!!, Go to next!", "Message", JOptionPane.INFORMATION_MESSAGE);
             }
             case "Hint" -> {
 
