@@ -41,6 +41,10 @@ public class Main extends JFrame {
         buttonPanel.add(submitButton);
         buttonPanel.add(hintButton);
 
+        Controller cnt = new Controller();
+        submitButton.addActionListener(cnt);
+        hintButton.addActionListener(cnt);
+
         buttonPanel.add(submitButton);
         buttonPanel.add(hintButton);
 
