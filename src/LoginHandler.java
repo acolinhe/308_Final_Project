@@ -27,6 +27,11 @@ public class LoginHandler implements ActionListener {
             if (loggedIn) {
                 System.out.println("Login successful!");
                 loginWindow.setVisible(false);
+                Main main = new Main();
+                main.setVisible(true);
+                main.setSize(1500, 1500);
+                main.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
             } else {
                 ImageIcon icon = new ImageIcon("src/images/pepeSize.png");
                 JOptionPane.showMessageDialog(null, "Invalid username or password. Please try again.", "Error",

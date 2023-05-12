@@ -79,11 +79,8 @@ public class Main extends JFrame {
      * makes the window visible.
      */
     public static void main(String[] args) {
-//        Main m = new Main();
-//        m.setSize(1500, 1500);
-//        m.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        m.setVisible(true);
-
+        Main m = new Main();
+        m.setVisible(false);
         LoginWindow lw = new LoginWindow();
         lw.setVisible(true);
     }
