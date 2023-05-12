@@ -25,4 +25,12 @@ public class FlowchartComparator {
         return true;
     }
 
+    public void createUserAnswer() {
+        for (Shape shapeName: repo.getShapes()) {
+            repo.putUserAns(shapeName.getClass().getName(), 1 + repo.getUserAns().get(shapeName.getClass().getName()));
+        }
+        System.out.println(repo.getUserAns());
+    }
+
+
 }

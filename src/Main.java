@@ -85,6 +85,3 @@ public class Main extends JFrame {
         lw.setVisible(true);
     }
 }
-
-
-//new LoginCredentials().createUser("moose", "CSC309Lover", true);

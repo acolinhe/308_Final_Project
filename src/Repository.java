@@ -233,7 +233,10 @@ public class Repository extends Observable implements RepositoryInterface{
 
     public void putActual(String key, Integer value) {
         actual.put(key, value);
-        System.out.println(actual);
+    }
+
+    public void putUserAns(String key, Integer value) {
+        userAns.put(key, value);
     }
 
     public HashMap<String, Integer> getUserAns() {
