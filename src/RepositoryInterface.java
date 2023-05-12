@@ -1,3 +1,5 @@
+import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
 
 public interface RepositoryInterface
@@ -104,4 +106,10 @@ public interface RepositoryInterface
      */
     public Stack<Object> getAll();
 
+    public HashMap<String, Integer> getActual();
+
+    public HashMap<String, Integer> getUserAns();
+
+    String[] getMainObjects();
+    public void putActual(String key, Integer value);
 }
