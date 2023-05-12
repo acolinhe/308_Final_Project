@@ -1,8 +1,14 @@
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
 
 /**
  * The Main class extends a built-in library, JFrame, to create a main window
@@ -19,7 +25,6 @@ public class Main extends JFrame {
      */
     public Main() {
         super("Final Project");
-
         Menu menu = new Menu();
         StatusArea status = new StatusArea();
         WorkingArea work = new WorkingArea();
@@ -31,39 +36,26 @@ public class Main extends JFrame {
         setLayout(new BorderLayout());
 
         JPanel textAreaPanel = new JPanel(new GridLayout(2, 1));
-        JPanel qaPanel = new JPanel(new BorderLayout());
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        JButton submitButton = new JButton("Submit");
-        JButton hintButton = new JButton("Hint");
-        submitButton.setPreferredSize(new Dimension(100, 30)); // Set the preferred size of the submit button
-        hintButton.setPreferredSize(new Dimension(100, 30)); // Set the preferred size of the hint button
+        JPanel qaPanel = new JPanel(new GridLayout(2, 1));
 
-        buttonPanel.add(submitButton);
-        buttonPanel.add(hintButton);
-
-        buttonPanel.add(submitButton);
-        buttonPanel.add(hintButton);
-
-        JTextArea questionTextArea = new JTextArea(5, 25);
+        JTextArea questionTextArea = new JTextArea(5, 30);
         questionTextArea.setBorder(BorderFactory.createTitledBorder("Question"));
-        JTextArea answerTextArea1 = new JTextArea(1, 25);
+        JTextArea answerTextArea1 = new JTextArea(3, 30);
         answerTextArea1.setBorder(BorderFactory.createTitledBorder("Answer Subsection 1"));
-        JTextArea answerTextArea2 = new JTextArea(1, 25);
+        JTextArea answerTextArea2 = new JTextArea(3, 30);
         answerTextArea2.setBorder(BorderFactory.createTitledBorder("Answer Subsection 2"));
-        JTextArea answerTextArea3 = new JTextArea(1, 25);
+        JTextArea answerTextArea3 = new JTextArea(3, 30);
         answerTextArea3.setBorder(BorderFactory.createTitledBorder("Answer Subsection 3"));
-        JTextArea answerTextArea4 = new JTextArea(1, 25);
+        JTextArea answerTextArea4 = new JTextArea(3, 30);
         answerTextArea4.setBorder(BorderFactory.createTitledBorder("Answer Subsection 4"));
 
-        qaPanel.add(questionTextArea, BorderLayout.NORTH);
+        qaPanel.add(questionTextArea);
         JPanel answerSubsectionsPanel = new JPanel(new GridLayout(2, 2));
         answerSubsectionsPanel.add(answerTextArea1);
         answerSubsectionsPanel.add(answerTextArea2);
         answerSubsectionsPanel.add(answerTextArea3);
         answerSubsectionsPanel.add(answerTextArea4);
-        qaPanel.add(answerSubsectionsPanel, BorderLayout.CENTER);
-        qaPanel.add(buttonPanel, BorderLayout.SOUTH);
-
+        qaPanel.add(answerSubsectionsPanel);
 
         textAreaPanel.add(qaPanel);
         textAreaPanel.add(chat);
@@ -78,13 +70,14 @@ public class Main extends JFrame {
      * It sets the size of the window, sets the default close operation, and
      * makes the window visible.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         Main m = new Main();
-        m.setVisible(false);
-        LoginWindow lw = new LoginWindow();
-        lw.setVisible(true);
+        m.setSize(1500, 1500);
+        m.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        m.setVisible(true);
+
+        // For DB testing. Will remove.
+//        new LoginCredentials().createUser("Fangoona2", "ILoveTeemo<3", true);
+//        new FlowchartComparator().createHardAnswer();
     }
 }
-
-
-//new LoginCredentials().createUser("moose", "CSC309Lover", true);
