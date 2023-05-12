@@ -50,7 +50,7 @@ public class Diamond extends Shape {
     }
 
     public int[] calculateCenterY(int diamondSize) {
-        int centerY = super.x1 + diamondSize / 2;
+        int centerY = super.y1 + diamondSize / 2;
 
         return new int[] {
                 calculateLeft(centerY, diamondSize),
@@ -59,6 +59,7 @@ public class Diamond extends Shape {
                 centerY
         };
     }
+
 
     public int calculateLeft(int center, int diamondSize) {
         return center - diamondSize / 2;
