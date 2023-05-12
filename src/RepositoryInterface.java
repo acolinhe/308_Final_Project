@@ -112,4 +112,5 @@ public interface RepositoryInterface
 
     String[] getMainObjects();
     public void putActual(String key, Integer value);
+    public void putUserAns(String key, Integer value);
 }
