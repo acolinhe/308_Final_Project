@@ -34,7 +34,7 @@ public class LoginCredentials extends DBConn {
 
     // need to test
     public void createUser(String username, String password, boolean admin) throws SQLException, NoSuchAlgorithmException {
-        String sql = "INSERT INTO Users (username, pass) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Users (username, pass) VALUES (?, ?)";
         String hashedPass = hashPasswords(password);
         PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         int userId = 0;
