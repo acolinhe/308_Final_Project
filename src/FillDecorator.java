@@ -14,7 +14,7 @@ public class FillDecorator extends ShapeDecorator {
         decoratedShape.draw(g);
         setFill(g);
     }
-    
+
     @Override
     public void setLocation(int x, int y, int w, int h) {
         this.x1 = x;

@@ -10,13 +10,16 @@ import java.awt.event.MouseEvent;
 
 
 public class ControllerGPT implements ActionListener {
-    private ChatGPT gpt = new ChatGPT();
+    private final ChatGPT gpt = new ChatGPT();
+    private final Repository repo = Repository.getR();
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        JTextField messageTextField = repo.getMessageTextField();
+        JTextPane chatTextArea = repo.getChatTextArea();
 
         if (e.getActionCommand().equals("Send")){
-            String input = ChatArea.messageTextField.getText();
+            String input = messageTextField.getText();
             System.out.println(input);
 
             String output = "Sorry, something went wrong!";
@@ -27,10 +30,10 @@ public class ControllerGPT implements ActionListener {
                 ex.printStackTrace();
             }
 
-            StyledDocument doc = ChatArea.chatTextArea.getStyledDocument();
-            Style styleGreen = ChatArea.chatTextArea.addStyle("LightGreen", null);
+            StyledDocument doc = chatTextArea.getStyledDocument();
+            Style styleGreen = chatTextArea.addStyle("LightGreen", null);
             StyleConstants.setForeground(styleGreen, Color.decode("#76D7C4"));
-            Style styleLightGreen = ChatArea.chatTextArea.addStyle("Green", null);
+            Style styleLightGreen = chatTextArea.addStyle("Green", null);
             StyleConstants.setForeground(styleLightGreen, Color.decode("#D1F2EB"));
 
 
@@ -42,7 +45,7 @@ public class ControllerGPT implements ActionListener {
             } catch (BadLocationException ex) {
                 ex.printStackTrace();
             }
-            ChatArea.messageTextField.setText("");
+            messageTextField.setText("");
         }
     }
 

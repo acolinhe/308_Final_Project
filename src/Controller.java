@@ -21,6 +21,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
     private String shape;
     private RepositoryInterface repo = Repository.getR();
 
+
     /**
      * Method below is inherited from ActionListener. It gets inputs from checkboxes which user operates With.
      * It sets to different operations using getActionCommand().
@@ -38,25 +39,21 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
         }
 
         switch (action) {
-            case "Undo":
-                undo();
-                break;
-            case "Clear":
-                clear();
-                break;
-            case "About":
+            case "Undo" -> undo();
+            case "Clear" -> clear();
+            case "About" -> {
                 AboutArea ab = new AboutArea();
                 ab.aboutInfo();
-                break;
-            case "Save":
+            }
+            case "Save" -> {
                 try {
                     Repository.getR().setAll();
                     LoadOrSave.saveObjects(Repository.getR().getShapes(), Repository.getR().getLines(), Repository.getR().getFilePath());
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-                break;
-            case "Load":
+            }
+            case "Load" -> {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setDialogTitle("Load Diagram");
                 int userSelect = fileChooser.showOpenDialog(this);
@@ -71,9 +68,37 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
                         throw new RuntimeException(ex);
                     }
                 }
-                break;
+            }
         }
     }
+
+    /**
+     * This method undoes the line and shapes that are drawn on the panel.
+     */
+    void undo() {
+        if (!Repository.getR().getLines().isEmpty() || !Repository.getR().getShapes().isEmpty()) {
+            if (!Repository.getR().getLines().isEmpty()) {
+                Repository.getR().getLines().pop();
+            }
+            Repository.getR().getShapes().pop();
+        }
+        repaint();
+    }
+
+    /**
+     * This method clears the lines and shapes that are drawn panel.
+     */
+    void clear() {
+        if (!Repository.getR().getLines().isEmpty() || !Repository.getR().getShapes().isEmpty()) {
+            if (!Repository.getR().getLines().isEmpty()) {
+                Repository.getR().getLines().clear();
+            }
+            Repository.getR().getShapes().clear();
+        }
+        repaint();
+    }
+
+
 
     /**
      * This method is called whenever mouse is clicked. When a mouse is clicked, it draws the shape according to
@@ -91,7 +116,12 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
         shape = Repository.getR().getShape();
 
         if (e.getClickCount() == 1) {
-            pointExistInShape(p);
+            for (Shape sh : Repository.getR().getShapes()) {
+                if (sh.contains(p)) {
+                    exist = true;
+                    break;
+                }
+            }
 
             if (!exist && !shape.isEmpty()) {
                 if (shape.equals("Begin")) {
@@ -116,95 +146,60 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
                     Repository.getR().addShape(new Diamond(x1 - 50, y1 - 50, x1 + 100, y1 + 100, color));
                 }
                 repaint();
-
             }
 
-            noTextEntriesShape(p);
+            if (!shape.equals("Begin") && !shape.equals("End")) {
+                for (Shape sp : Repository.getR().getShapes()) {
+                    if (sp.contains(p) && !sp.isTextDefined() && !exist) {
+                        JFrame frame = new JFrame();
+                        String result = JOptionPane.showInputDialog(frame, "Enter expression:");
+                        sp.setText(result);
+                        repaint();
+                        sp.setTextDefined(true);
+                    }
+                    sp.setTextDefined(false);
+                }
+            }
         }
 
         for (Shape sp : Repository.getR().getShapes()) {
-            pointExistInShape(e, p, sp);
+            if (e.getClickCount() == 2 && sp.contains(p)) {
+                Repository.getR().addC(sp);
+
+                //removing if more than two shapes
+                if (Repository.getR().getC().size() > 2) {
+                    Shape shape = Repository.getR().getC().pop();
+                    Repository.getR().clearC();
+                    Repository.getR().getC().push(shape);
+                }
+
+                //Something
+                if (Repository.getR().getC().size() == 2) {
+                    Line line = new Line(Repository.getR().getC().get(0), Repository.getR().getC().get(1));
+                    Repository.getR().addLine(line);
+                    Repository.getR().setLine(line);
+
+                    //setting line flags
+                    if (count % 2 == 1) {
+                        line.setFlag(true);
+                    } else {
+                        line.setFlag(false);
+                    }
+                    count++;
+
+                    //line messages
+                    if (Repository.getR().getC().get(0).toString().contains("Diamond")) {
+                        line.lineMessage(true);
+                        System.out.println("true");
+
+                    } else {
+                        line.lineMessage(false);
+                        System.out.println("false");
+                    }
+                }
+            }
         }
         repaint();
-    }
-
-    private void noTextEntriesShape(Point p) {
-        if (!shape.equals("Begin") && !shape.equals("End")) {
-            for (Shape sp : Repository.getR().getShapes()) {
-                if (sp.contains(p) && !sp.isTextDefined() && !exist) {
-                    JFrame frame = new JFrame();
-                    String result = JOptionPane.showInputDialog(frame, "Enter expression:");
-                    sp.setText(result);
-                    repaint();
-                    sp.setTextDefined(true);
-                }
-                sp.setTextDefined(false);
-            }
-        }
-    }
-
-    private void pointExistInShape(Point p) {
-        for (Shape sh : Repository.getR().getShapes()) {
-            if (sh.contains(p)) {
-                exist = true;
-                break;
-            }
-        }
-    }
-
-    private void moreThanTwoShapes() {
-        if (Repository.getR().getC().size() > 2) {
-            Shape shape = Repository.getR().getC().pop();
-            Repository.getR().clearC();
-            Repository.getR().getC().push(shape);
-        }
-    }
-
-    private void setLineFlags(Line line) {
-        if (count % 2 == 1) {
-            line.setFlag(true);
-        } else {
-            line.setFlag(false);
-        }
-        count++;
-    }
-
-    private void lineMessages(Line line) {
-        if (Repository.getR().getC().get(0).toString().contains("Diamond")) {
-            line.lineMessage(true);
-            System.out.println("true");
-
-        } else {
-            line.lineMessage(false);
-            System.out.println("false");
-        }
-    }
-
-    private void something() {
-        if (Repository.getR().getC().size() == 2) {
-            Line line = new Line(Repository.getR().getC().get(0), Repository.getR().getC().get(1));
-            Repository.getR().addLine(line);
-            Repository.getR().setLine(line);
-
-            //setting line flags
-            setLineFlags(line);
-
-            //line messages
-            lineMessages(line);
-
-        }
-    }
-
-    private void pointExistInShape(MouseEvent e, Point p, Shape sp) {
-        if (e.getClickCount() == 2 && sp.contains(p)) {
-            Repository.getR().addC(sp);
-
-            //removing if more than two shapes
-            moreThanTwoShapes();
-
-            //Something
-            something();
-        }
     }
 
     /**
@@ -288,31 +283,5 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
     @Override
     public void mouseMoved(MouseEvent e) {
 
-    }
-
-    /**
-     * This method undoes the line and shapes that are drawn on the panel.
-     */
-    void undo() {
-        if (!Repository.getR().getLines().isEmpty() || !Repository.getR().getShapes().isEmpty()) {
-            if (!Repository.getR().getLines().isEmpty()) {
-                Repository.getR().getLines().pop();
-            }
-            Repository.getR().getShapes().pop();
-        }
-        repaint();
-    }
-
-    /**
-     * This method clears the lines and shapes that are drawn panel.
-     */
-    void clear() {
-        if (!Repository.getR().getLines().isEmpty() || !Repository.getR().getShapes().isEmpty()) {
-            if (!Repository.getR().getLines().isEmpty()) {
-                Repository.getR().getLines().clear();
-            }
-            Repository.getR().getShapes().clear();
-        }
-        repaint();
     }
 }

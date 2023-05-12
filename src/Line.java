@@ -101,10 +101,9 @@ public class Line implements Serializable {
         if (diamond) {
             if (connect.get(0).toString().contains("Diamond")) {
                 if (flag) {
-                    repo.setTextbox("false");
-
-                } else {
                     repo.setTextbox("true");
+                } else {
+                    repo.setTextbox("false");
                 }
             }
         } else {

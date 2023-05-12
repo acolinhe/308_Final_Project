@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.File;
 import java.util.*;
 import java.util.Observable;
@@ -15,9 +16,16 @@ public class Repository extends Observable implements RepositoryInterface{
     private Line line;
     private Stack<Line> lines = new Stack<Line>();
     private Stack<Shape> connection = new Stack<Shape>();
+    private HashMap<String, Integer> actual = new HashMap<>();
+    private HashMap<String, Integer> userAns = new HashMap<>();
+
+    private String[] mainObjects = {"Begin", "End", "Call a method", "Instruction", "Input or Output", "Variable Declaration", "Condition", "Lines"};
     private Stack<Object> all = new Stack<>();
     private static Repository repo;
     private String textbox;
+    private JTextPane chatTextArea;
+    private JTextField messageTextField;
+
 
     /**
      * Allows Repository to not be changed out of scope
@@ -202,5 +210,37 @@ public class Repository extends Observable implements RepositoryInterface{
      */
     public Stack<Object> getAll() {
         return all;
+    }
+
+    public void setChatTextArea(){
+        this.chatTextArea = new JTextPane();
+    }
+    public void setMessageTextField(){
+        this.messageTextField = new JTextField();
+    }
+
+    public JTextPane getChatTextArea(){
+        return repo.chatTextArea;
+    }
+
+    public JTextField getMessageTextField(){
+        return repo.messageTextField;
+    }
+
+    public HashMap<String, Integer> getActual() {
+        return actual;
+    }
+
+    public void putActual(String key, Integer value) {
+        actual.put(key, value);
+        System.out.println(actual);
+    }
+
+    public HashMap<String, Integer> getUserAns() {
+        return userAns;
+    }
+
+    public String[] getMainObjects() {
+        return mainObjects;
     }
 }
