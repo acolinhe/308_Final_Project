@@ -40,6 +40,7 @@ public class Line implements Serializable {
      * @param g the Graphics object to draw on
      */
     public void draw(Graphics g) {
+        g.setColor(Color.BLACK);
         Point start = center(connect.get(0));
         Point end = center(connect.get(1));
         int startx=start.x,starty=start.y,endx=end.x,endy=end.y;

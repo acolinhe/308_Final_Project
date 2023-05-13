@@ -19,7 +19,6 @@ public class Main extends JFrame {
      */
     public Main() {
         super("Final Project");
-
         Menu menu = new Menu();
         StatusArea status = new StatusArea();
         WorkingArea work = new WorkingArea();
@@ -84,8 +83,8 @@ public class Main extends JFrame {
      */
     public static void main(String[] args) {
         Main m = new Main();
-        m.setVisible(false);
+        m.setVisible(true);
         LoginWindow lw = new LoginWindow();
-        lw.setVisible(true);
+        lw.setVisible(false);
     }
 }
