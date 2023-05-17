@@ -70,7 +70,15 @@ public class Controller extends JPanel implements ActionListener, MouseListener,
                 }
             }
             case "Submit" -> {
-                JOptionPane.showMessageDialog(null, "Correct!!, Go to next!", "Message", JOptionPane.INFORMATION_MESSAGE);
+                String ans = "Coding";
+                if (true) {
+                    JOptionPane.showMessageDialog(null, "Correct!!, Go to next!", "Message", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    if (ans == "UML")
+                        JOptionPane.showMessageDialog(null, "Your UML was incorrect.", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    else if (ans == "Coding")
+                        JOptionPane.showMessageDialog(null, "Your coding answer was incorrect.", "Message", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
             case "Hint" -> {
 
